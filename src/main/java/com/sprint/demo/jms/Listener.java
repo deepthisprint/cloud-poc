@@ -54,9 +54,7 @@ public class Listener {
 				 confirmOrderLVOResponse = confirmOrderServiceImpl.confirmOrder(orderDetailsObj);
 				 if(confirmOrderLVOResponse.getStatus() == 200){
 					 	confirmOrderLVOResponse.setOrderId(orderDetailsObj.getOrderId());
-					 	String s = "/topic/order-details"+orderDetailsObj1.getSender();
-						 messagingTemplate.convertAndSend(s, orderDetailsObj);
-						 repository.deleteByOrderId(orderDetailsObj.getOrderId());
+						repository.deleteByOrderId(orderDetailsObj.getOrderId());
 					 	
 				 }else{
 					 confirmOrderLVOResponse.setOrderId(orderDetailsObj.getOrderId());
@@ -66,6 +64,8 @@ public class Listener {
 					 	orderDetailsObj.setErrorMessage(confirmOrderLVOResponse.getErrorMessage());
 					 	repository.save(orderDetailsObj);
 				 }
+				 String s = "/topic/order-details"+orderDetailsObj1.getSender();
+						 messagingTemplate.convertAndSend(s, orderDetailsObj);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
