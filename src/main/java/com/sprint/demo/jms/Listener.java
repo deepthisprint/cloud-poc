@@ -35,9 +35,6 @@ public class Listener {
 	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
 
-	@Autowired
-	private MessagePostProcessorImpl messagePostProcessorImplObj;
-
 	@JmsListener(destination = "order-details-queue")
 	@SendTo("processed.queue")
 	public Map<String, ConfirmOrderLVOResponse> receiveMessage(final ActiveMQBytesMessage jsonMessage)
